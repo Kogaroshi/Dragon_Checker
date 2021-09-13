@@ -22,7 +22,10 @@ Dragon = w3.eth.contract(abi=Dragon_ABI, address=Dragon_address)
 dragon_name = Dragon.functions.name().call()
 
 while(True):
-    os.system('clear')
+    if(sys.platform == 'win32'):
+        os.system('clr')
+    else:
+        os.system('clear')
     print('-----------------')
     print("Dragon ", dragon_name, Dragon_address)
     print("Health ", Dragon.functions.health().call(), "/", Dragon.functions.maxHealth().call())
