@@ -6,7 +6,10 @@ Install dependencies :
 
 `pip3 install -r requirements.txt` (or just pip, depending on your environment)  
 
-Fill the `endpoint_url`in `dragon_checker.py`  
+Create the `.env` file and fill the values  
+
+`cp .env.example .env`  
+Then set the RPC endpoint
 
 Run : 
 

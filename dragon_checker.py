@@ -4,10 +4,13 @@ import os
 import json
 import time
 import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 #---------------------------
 
-endpoint_url = ""
+endpoint_url = os.environ['FANTOM_URI']
 
 #---------------------------
 
@@ -30,17 +33,23 @@ while(True):
     print("Dragon ", dragon_name, Dragon_address)
     print("Health ", Dragon.functions.health().call(), "/", Dragon.functions.maxHealth().call())
     print("Health Regen ", Dragon.functions.healthRegeneration().call())
-    print("Damages ", Dragon.functions.damage().call())
+    print("Attack Damages ", Dragon.functions.damage().call())
+    print("Attack Cooldown ", Dragon.functions.attackCooldown().call())
     print('-----------------')
     print("Uncleanliness ", Dragon.functions.getUncleanliness().call())
     print("Sleepiness ", Dragon.functions.getSleepiness().call())
     print("Hunger ", Dragon.functions.getHunger().call())
     print("Boredom ", Dragon.functions.getBoredom().call())
     print('-----------------')
+    print("Eggs layed ", Dragon.functions.breedCount().call())
+    print('-----------------')
     breed_cooldown = Dragon.functions.secondsUntilBreed().call()
     print("Can breed in  ",str(datetime.timedelta(seconds=breed_cooldown)))
     print('-----------------')
     atk_cooldown = Dragon.functions.secondsUntilAttack().call()
     print("Can attack in  ",str(datetime.timedelta(seconds=atk_cooldown)))
+    print('-----------------')
+    upgrade_cooldown = Dragon.functions.secondsUntilUpgrade().call()
+    print("Can upgrade in  ",str(datetime.timedelta(seconds=upgrade_cooldown)))
     print('-----------------')
     time.sleep(30)
