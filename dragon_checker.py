@@ -11,6 +11,7 @@ load_dotenv()
 #---------------------------
 
 endpoint_url = os.environ['FANTOM_URI']
+user_address = "0xa25547A556439213176f9FECec50acc863305f59"
 
 #---------------------------
 
@@ -32,7 +33,10 @@ while(True):
 
     print('-----------------')
     print("Dragon ", dragon_name, Dragon_address)
-    print("Health ", Dragon.functions.health().call(), "/", Dragon.functions.maxHealth().call())
+    health = Dragon.functions.health().call()
+    maxHealth = Dragon.functions.maxHealth().call()
+    percent_health = int((health * 10000) / maxHealth) / 100
+    print("Health ", health, "/", maxHealth, "(", percent_health, "%)")
     print("Health Regen ", Dragon.functions.healthRegeneration().call())
     print("Attack Damages ", Dragon.functions.damage().call())
     attack_cooldown = Dragon.functions.attackCooldown().call()
@@ -46,18 +50,27 @@ while(True):
     breed_count = Dragon.functions.breedCount().call()
     print("Eggs layed ", breed_count)
     print('-----------------')
-    breed_cooldown = ((12 * 3600)  * (2**(breed_count + 1)))
+    breed_cooldown = ((12 * 3600) * (2**(breed_count + 1)))
     sec_until_breed = Dragon.functions.secondsUntilBreed().call()
-    real_breed_sec = (2 * breed_cooldown) - sec_until_breed
+    real_breed_sec = 0
+    if(sec_until_breed != 0):
+        real_breed_sec = (2 * breed_cooldown) - sec_until_breed
     print("Can breed in ~ ",str(datetime.timedelta(seconds=real_breed_sec)))
     print('-----------------')
     sec_until_atk = Dragon.functions.secondsUntilAttack().call()
-    real_atk_sec = (2 * attack_cooldown) - sec_until_atk
+    real_atk_sec = 0
+    if(sec_until_atk != 0):
+        real_atk_sec = (2 * attack_cooldown) - sec_until_atk
     print("Can attack in ~ ",str(datetime.timedelta(seconds=real_atk_sec)))
     print('-----------------')
     upgrade_cooldown = 3600
     sec_until_upgrade = Dragon.functions.secondsUntilUpgrade().call()
-    real_upgrade_sec = (2 * upgrade_cooldown) - sec_until_upgrade
+    real_upgrade_sec = 0
+    if(sec_until_upgrade != 0):
+        real_upgrade_sec = (2 * upgrade_cooldown) - sec_until_upgrade
     print("Can upgrade in ~ ",str(datetime.timedelta(seconds=real_upgrade_sec)))
     print('-----------------')
+    if(user_address != ""):
+        print("Your Trust Points ",Dragon.functions.trust(user_address).call())
+        print('-----------------')
     time.sleep(30)
